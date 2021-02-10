@@ -35,3 +35,11 @@ let localAst = t.variableDeclaration('let', [varDec]);
 
 let code = generator(localAst).code;
 console.log(code);
+
+
+// 不同的字面量需要调用不同的方法生成 当生成比较多字面量的时候 难度会不断上升 其实在babel中提供了valueToNode方法
+// valueToNode 可以很方便的生成各种类型 不管是原始类型underfined、null、string、number、boolean还可以是对象Regexp
+// object等等
+let local_ast = t.valueToNode([1, '2', null, undefined, /\w\sg/, {"x": 1000}]);
+let code1 = generator(local_ast).code;
+console.log(code1)
