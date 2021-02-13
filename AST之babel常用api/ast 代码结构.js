@@ -19,4 +19,4 @@ let ast = parser.parse(js_code);
 // 在这里对AST进行一系列的操作
 
 let code = generator(ast).code;
-fs.writeFile('./AST之babel常用API/demoNew.js', code, (err)=>{});
+fs.writeFile('./AST之babel常用api/demoNew.js', code, (err)=>{});

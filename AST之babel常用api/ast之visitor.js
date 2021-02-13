@@ -114,4 +114,4 @@ traverse(ast, visitor);
 
 let code = generator(ast).code;
 console.log(code);
-// fs.writeFile('./AST之babel常用API/new_demo.js', code, (err)=>{});
+// fs.writeFile('./AST之babel常用api/new_demo.js', code, (err)=>{});

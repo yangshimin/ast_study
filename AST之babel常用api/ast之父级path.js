@@ -49,4 +49,4 @@ const visitor3 = {
 traverse(ast, visitor);
 
 let code = generator(ast).code;
-fs.writeFile('./AST之babel常用API/demoNew.js', code, (err)=>{});
+fs.writeFile('./AST之babel常用api/demoNew.js', code, (err)=>{});
