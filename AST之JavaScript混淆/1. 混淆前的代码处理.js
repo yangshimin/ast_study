@@ -47,4 +47,3 @@ traverse(ast, visitor2);
 let code = generator(ast).code;
 console.log(code);
 // fs.writeFile('C:\\Users\\Yang\\WebstormProjects\\ast_study\\new_demo.js', code, (err)=>{});
-// D:\nodejs\node_global\node_modules\@babel\core\node_modules
