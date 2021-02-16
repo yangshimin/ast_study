@@ -133,5 +133,9 @@ bigArr = t.variableDeclaration('var', [bigArr]);
 ast.program.body.unshift(bigArr);
 
 let code = generator(ast).code;
+
+// 混淆的代码中 如果有十六进制加密 ast转成代码以后会有多余的转义字符 需要替换掉
+code = code.replace(/\\\\x/g, '\\x');
+
 console.log(code);
-// fs.writeFile('C:\\Users\\Yang\\WebstormProjects\\ast_study\\new_demo.js', code, (err)=>{});
+// fs.writeFile('F:\\code\\ast_study\\demo\\new_demo.js', code, (err)=>{});
