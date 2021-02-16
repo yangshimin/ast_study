@@ -95,7 +95,7 @@ traverse(ast, visitor);
 // 节点
 bigArr = bigArr.map(function (v) {
     return t.stringLiteral(v);
-})
+});
 
 // 现在开始把bigArr加入到ast中 也就是要先用types组件生成一个数组声明 并且数组成员与bigArr一致 然后加入到被混淆代码的最上面
 bigArr = t.variableDeclarator(t.identifier('arr'), t.arrayExpression(bigArr));
