@@ -21,6 +21,20 @@ let ast = parser.parse(js_code);
 // 即可 当然解密函数也需要一起放入原始代码中 在这里就用Base64编码一下字符串 然后使用浏览器自带的atob来解密 在AST中操作的话 要先遍历所有的
 // StringLiteral 取出其中的value属性进行加密 然后把StringLiteral节点替换为CallExpression(调用表达式)
 
+// 简单自定义一个加密函数
+function base64Encode(str) {
+    let b = new Buffer.from(str);
+    return b.toString('base64');
+}
+
+// 简单自定义一个解密函数
+// 注意： 这个加密函数应该放在混淆后的代码中 如果不放 混淆后的代码是不能正常运行的
+function baseDecode(str) {
+    let b = new Buffer.from(str, 'base64');
+    return b.toString("utf-8");
+
+}
+
 const visitor = {
     // 改变属性访问访问
     MemberExpression(path){
@@ -50,21 +64,6 @@ const visitor = {
         path.skip();
     }
 }
-
-// 简单自定义一个加密函数
-function base64Encode(str) {
-    return str + "_";
-}
-
-// 简单自定义一个解密函数
-// 注意： 这个加密函数应该放在混淆后的代码中 如果不放 混淆后的代码是不能正常运行的
-function baseDecode(str) {
-    return str.replace("_", "");
-
-}
-
-
-
 
 traverse(ast, visitor);
 
