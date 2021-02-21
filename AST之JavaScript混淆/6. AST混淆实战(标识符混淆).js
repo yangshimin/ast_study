@@ -19,7 +19,7 @@ let ast = parser.parse(js_code);
 // 标识符混淆
 // 实际开发中 可以让各个函数之间的局部标识符名相同 函数内的局部标识符名还可以与没有引用到的全局标识符名相同
 // 实现这种方案需要用到一个方法 scope.getOwnBinding 该方法可以用来获取属于当前节点的自定的绑定 例如 在Program节点下 使用getOwnBinding
-// 就可以获取到全局标识符名 而函数内部标识符名不会被获取到 那么要获取到局部标识符名 可以遍历函数节点 在FunctionExpression 与 FunctionDeclaration
+// 就可以获取到全局标识符名 而函数内部标识符名也会被获取到 那么要获取到局部标识符名 可以遍历函数节点 在FunctionExpression 与 FunctionDeclaration
 // 节点下 使用getOwnBinding 会获取到函数自身定义的局部标识符名 而不会获取到全局标识符名
 
 function renameOwnBinding(path){
