@@ -11,7 +11,7 @@ const t = require("@babel/types");
 // generator 也有其他参数，具体参考文档: https://babeljs.io/docs/en/@babel-generator
 const generator = require("@babel/generator").default;
 
-const js_code = fs.readFileSync("F:\\code\\ast_study\\demo\\标识符详解案例.js", {
+const js_code = fs.readFileSync("E:\\个人\\ast_study\\demo\\标识符详解案例.js", {
     encoding: "utf-8"
 });
 let ast = parser.parse(js_code);
@@ -22,6 +22,22 @@ let ast = parser.parse(js_code);
 
 // 1. 获取标识符作用域
 // scope.block 属性可以用来获取标识符作用域 返回的是Node对象 使用方法分为两种情况 变量和函数
+
+// 1.0 打印当前作用域
+visitor0 = {
+    FunctionDeclaration(path){
+        // 打印当前当前path的作用域
+        console.log(path.scope.dump());
+
+        // 获取作用域中a的绑定 然后打印其所属的js代码
+        let a_binding = path.scope.getBinding('a');
+        console.log(generator(a_binding.scope.block).code);
+
+        // 获取作用域中aaa的绑定 然后打印其所属的js代码
+        let aaa_binding = path.scope.getBinding('aaa');
+        console.log(generator(aaa_binding.scope.block).code);
+    }
+}
 
 // 1.1 标识符为变量的情况
 visitor1 = {
@@ -51,7 +67,7 @@ visitor2 = {
 visitor3 = {
     // 遍历FunctionDeclaration 符合要求的只有demo函数 然后获取当前节点下的绑定a 直接输出binding
     FunctionDeclaration(path) {
-        let binding = path.scope.getBinding('a');
+        let binding = path.scope.getBinding('aaa');
         // console.log(path + "");
         // console.log(generator(binding.scope.block).code);
         // console.log(binding.constantViolations[0] + '')
@@ -391,7 +407,7 @@ visitor7 = {
 // scope.getBindingIdentifier('a'): 获取当前节点中绑定的a标识符 返回的是Identifier的Node对象 同样地 这个方法也有Own版本 scope.getOwnBindingIdentifier('a')
 
 
-traverse(ast, visitor7)
+traverse(ast, visitor3)
 let code = generator(ast).code;
 console.log(code);
 // fs.writeFile('./AST之babel常用api/demoNew.js', code, (err)=>{});
