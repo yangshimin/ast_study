@@ -18,7 +18,8 @@ let ast = parser.parse(js_code);
 
 // scope 详解
 // scope 提供了一些属性和方法 可以方便查找标识符的作用域 获取标识符的所有引用 修改标识符的所有引用 以及知道标识符是否参数
-// 标识符是否为常量 如果不是常量 可以知道在哪里修改了它
+// 标识符是否为常量 如果不是常量 可以知道在哪里修改了它(为什么赋值语句左边的变量无法获取其作用域？
+// 因为程序无法预知变量初始化在哪里。可能在全局，也可能在区块内，因此无法计算其作用域。)
 
 // 1. 获取标识符作用域
 // scope.block 属性可以用来获取标识符作用域 返回的是Node对象 使用方法分为两种情况 变量和函数
@@ -67,7 +68,7 @@ visitor2 = {
 visitor3 = {
     // 遍历FunctionDeclaration 符合要求的只有demo函数 然后获取当前节点下的绑定a 直接输出binding
     FunctionDeclaration(path) {
-        let binding = path.scope.getBinding('aaa');
+        let binding = path.scope.getBinding('a');
         // console.log(path + "");
         // console.log(generator(binding.scope.block).code);
         // console.log(binding.constantViolations[0] + '')
