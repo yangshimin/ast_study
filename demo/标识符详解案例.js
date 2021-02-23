@@ -1,17 +1,18 @@
-const a = 1000;
+let a = 1000;
 let b = 2000;
 var aaa = 1000;
 let obj = {
     name: 'xiaojianbang',
-    add: function (a) {
+    add: function (c) {
         a = 400;
         b = 300;
+        ccc = 200;
         let e = 700;
         function demo() {
             let d = 600;
         }
         demo();
-        return a + a + b + 1000 + obj.name;
+        return c + a + b + + ccc + 1000 + obj.name;
     }
 };
 
