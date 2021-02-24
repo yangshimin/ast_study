@@ -11,7 +11,7 @@ const t = require("@babel/types");
 // generator 也有其他参数，具体参考文档: https://babeljs.io/docs/en/@babel-generator
 const generator = require("@babel/generator").default;
 
-const js_code = fs.readFileSync("F:\\code\\ast_study\\demo\\标识符重命名案例.js", {
+const js_code = fs.readFileSync("E:\\个人\\ast_study\\demo\\标识符重命名案例.js", {
     encoding: "utf-8"
 });
 let ast = parser.parse(js_code);
@@ -34,7 +34,7 @@ function renameOwnBinding(path){
             let name = p.node.name;
             // p.scope.getOwnBinding(name): 获取标识符名的绑定
             // 但有几个需要注意的地方： 一. 可以获取到子函数内部的标识符的绑定
-            // 二. 以functionDeclaration方式定义函数获取到的绑定是underfined, 但是在调用的时候可以获取到绑定
+            // 二. 以functionDeclaration方式定义函数用getOwnBinding获取到的绑定是undefined, 但是在调用的时候可以获取到绑定(可以借助scope.dump()来查看为啥是undefined)
             let binding = p.scope.getOwnBinding(name);
             // path + "": 通过隐式转换把AST转为js代码
             // binding.scope.block: 获取当前绑定的作用域

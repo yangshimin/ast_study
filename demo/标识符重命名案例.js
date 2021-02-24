@@ -14,6 +14,7 @@ function bcd() {
     function test(){
         var a = 200;
         var c = 200;
+        var e = 5;
         return a + c + b;
     }
     test();
