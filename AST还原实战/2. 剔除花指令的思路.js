@@ -16,6 +16,45 @@ const js_code = fs.readFileSync("C:\\Users\\Yang\\WebstormProjects\\ast_study\\d
 });
 let ast = parser.parse(js_code);
 
+// 先初始化一个解密函数的函数名
+let DecryptFuncName = "";
+// 取出解密函数的AST
+let stringDecryptFuncAst = ast.program.body[2];
+let DecryptFunc = stringDecryptFuncAst.declarations[0];
+// 解析解密函数的函数名
+DecryptFunc && (DecryptFuncName = DecryptFunc.id.name);
+
+// 初始化一个空的AST对象
+let newAst = parser.parse('');
+// 把解密数组相关的代码push到空的AST对象中
+newAst.program.body.push(ast.program.body[0]);
+newAst.program.body.push(ast.program.body[1]);
+newAst.program.body.push(stringDecryptFuncAst);
+// 把解密函数的AST转为字符串形式的JS代码
+// 这里需要注意用generate生成代码的时候 需要压缩一下 因为可能存在格式化检测的代码
+let stringDecryptFunc = generator(newAst, {compact: true}).code;
+// 用eval执行解密函数的字符串形式的代码
+eval(stringDecryptFunc);
+
+// 遍历AST进行字符串解密
+traverse(ast, {
+    VariableDeclarator(path){
+        if (path.node.id.name === DecryptFuncName){
+            // DecryptFuncName 是一个Identifier
+            // binding.referencePaths 里存放的是所有引用到这个identifier的地方, 存放的元素是Identifier类型的path对象
+            let binding = path.scope.getBinding(DecryptFuncName);
+            binding && binding.referencePaths.map(function (v){
+                v.parentPath.isCallExpression() &&
+                v.parentPath.replaceWith(t.stringLiteral(eval(v.parentPath.toString())));
+            });
+        }
+    }
+});
+
+ast.program.body.shift();
+ast.program.body.shift();
+ast.program.body.shift();
+
 // 花指令大体分为：字符串花指令和函数花指令
 
 // 1. 字符串花指令的剔除
