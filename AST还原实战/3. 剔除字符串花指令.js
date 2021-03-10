@@ -56,6 +56,21 @@ ast.program.body.shift();
 ast.program.body.shift();
 ast.program.body.shift();
 
+// 花指令大体分为：字符串花指令和函数花指令
+
+// 1. 字符串花指令的剔除
+// 对于字符串花指令 可以遍历所有的MemberExpression节点 取出object节点名和property节点值 在ObjectExpression节点中找到对应的值 如果类型还是
+// MemberExpression 就说明还要继续找 继续取出object节点名和property节点值 继续在ObjectExpression节点中找到对应的值 直到找到的值类型为
+// StringLiteral 就进行替换 因此需要用到递归
+
+// 2. 函数花指令的剔除
+// 对于函数花指令 也是遍历所有的MemberExpression节点 取出object节点名和property节点值 在ObjectExpression节点中找到对应的值 如果类型为
+// FunctionExpression并且函数体内部有MemberExpression节点 就说明还需要继续找 直到找到的类型为FunctionExpression并且函数体内部没有MemberExpression
+// 节点 才是最终需要的节点
+
+// 在上面的介绍中 多次提到了在ObjectExpression节点中找到对应的值 这里有一个比较简便的寻找方式 可以在nodejs中定义一个totalObj对象 然后解析
+// 源代码中所有的ObjectExpression 加入到totalObj对象中 其中这个对象的各个值都为Node对象 方便后续的操作 比如想要获取_0x22b277['oiFic']
+// 只需要执行totalObj['_0x22b277']['oiFic']来获取Node节点
 // 生成totalObj对象
 var totalObj = {};
 function generateObj(ast){
